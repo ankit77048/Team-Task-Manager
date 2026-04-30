@@ -19,7 +19,11 @@ app.use(helmet());
 
 // CORS
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    process.env.CLIENT_URL
+  ].filter(Boolean),
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -43,10 +47,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // ── Routes ────────────────────────────────────────────────────
-app.use('/api/auth',      require('./src/routes/auth'));
-app.use('/api/users',     require('./src/routes/users'));
-app.use('/api/projects',  require('./src/routes/projects'));
-app.use('/api/tasks',     require('./src/routes/tasks'));
+app.use('/api/auth', require('./src/routes/auth'));
+app.use('/api/users', require('./src/routes/users'));
+app.use('/api/projects', require('./src/routes/projects'));
+app.use('/api/tasks', require('./src/routes/tasks'));
 app.use('/api/dashboard', require('./src/routes/dashboard'));
 
 // Health check
